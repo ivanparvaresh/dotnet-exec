@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<PackageId>dotnet-exec</PackageId>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Authors>javadparvaresh@gmail.com</Authors>
+		<Description>Execute custom commands by dotnet</Description>
+		<PackageType>DotnetCliTool</PackageType>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>execute</ToolCommandName>
+		<PackageOutputPath>./../.nupkg</PackageOutputPath>
+		<AssemblyName>dotnet-exec</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
+	</ItemGroup>
+
+</Project>

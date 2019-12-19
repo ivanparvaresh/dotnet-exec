@@ -1,0 +1,219 @@
+using System;
+using System.Linq;
+using System.IO;
+using System.Text;
+using Xunit;
+
+namespace Ivanize.DotnetTool.Exec.Test
+{
+    public class ExecutorTest
+    {
+        [Fact]
+        public void Execute_Should_Throw_If_Package_Is_Null()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Executor(null));
+        }
+        [Fact]
+        public void Execute_Should_Throw_If_Args_Are_Empty()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] { }
+            );
+            var executor = new Executor(pkg);
+            Assert.Throws<ArgumentNullException>(() => executor.Execute(null));
+        }
+        [Fact]
+        public void Execute_Should_Print_Help_Message_If_Argument_Is_Empty()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] { }
+            );
+
+            var stringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(stringBuilder);
+            var executor = new Executor(pkg, outWriter, outWriter);
+
+
+            executor.Execute(new string[] { });
+            outWriter.Flush();
+
+            Assert.Equal(
+                "\n\nUsage:  [options]\n\nOptions:\n  -h  Show help information\n\n",
+                stringBuilder.ToString());
+
+            outWriter.Close();
+        }
+
+        [Fact]
+        public void Execute_Should_Print_Help_Message_Comamnds_Included_If_Argument_Is_Empty()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] {
+                    new Command("start","dotnet start")
+                }
+            );
+
+            var stringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(stringBuilder);
+            var executor = new Executor(pkg, outWriter, outWriter);
+
+
+            executor.Execute(new string[] { });
+            outWriter.Flush();
+
+            Assert.Equal(
+                "\n\nUsage:  [options] [command]\n\nOptions:\n  -h  Show help information\n\nCommands:\n  start   Run start command\n\nUse \" [command] --\" for more information about a command.\n\n",
+                stringBuilder.ToString());
+            outWriter.Close();
+        }
+
+        [Fact]
+        public void Execute_Should_Print_Help_Message_Comamnds_Included_If_Argument_pass_help_param()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] {
+                    new Command("start","dotnet start")
+                }
+            );
+
+            var stringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(stringBuilder);
+            var executor = new Executor(pkg, outWriter, outWriter);
+
+
+            executor.Execute(new string[] { "-h" });
+            outWriter.Flush();
+
+            Assert.Equal(
+                "\n\nUsage:  [options] [command]\n\nOptions:\n  -h  Show help information\n\nCommands:\n  start   Run start command\n\nUse \" [command] --\" for more information about a command.\n\n",
+                stringBuilder.ToString());
+            outWriter.Close();
+        }
+
+        [Fact]
+        public void Execute_Should_Execute_The_Command_Script()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] {
+                    new Command("start","echo 'Start'")
+                }
+            );
+
+            var outputStringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(outputStringBuilder);
+
+            var errorStringBuilder = new System.Text.StringBuilder();
+            var errorWriter = new System.IO.StringWriter(errorStringBuilder);
+
+            var executor = new Executor(pkg, outWriter, errorWriter);
+
+
+            executor.Execute(new string[] { "start" });
+            outWriter.Flush();
+
+            Assert.Equal("Start\n\n", outputStringBuilder.ToString());
+            outWriter.Close();
+        }
+
+        [Fact]
+        public void Execute_Should_Capture_The_StandardOutput()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] {
+                    new Command("start","echo 'Start'")
+                }
+            );
+
+            var outputStringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(outputStringBuilder);
+
+            var errorStringBuilder = new System.Text.StringBuilder();
+            var errorWriter = new System.IO.StringWriter(errorStringBuilder);
+
+            var executor = new Executor(pkg, outWriter, errorWriter);
+
+
+            executor.Execute(new string[] { "start" });
+            outWriter.Flush();
+
+            Assert.Equal("Start\n\n", outputStringBuilder.ToString());
+            outWriter.Close();
+        }
+
+        [Fact]
+        public void Execute_Should_Capture_The_ErrorOutput()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] {
+                    new Command("start","not-existed-command do-something")
+                }
+            );
+
+            var outputStringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(outputStringBuilder);
+
+            var errorStringBuilder = new System.Text.StringBuilder();
+            var errorWriter = new System.IO.StringWriter(errorStringBuilder);
+
+            var executor = new Executor(pkg, outWriter, errorWriter);
+
+
+            executor.Execute(new string[] { "start" });
+            errorWriter.Flush();
+
+            Assert.Equal("/bin/bash: not-existed-command: command not found\n\n", errorStringBuilder.ToString());
+            outWriter.Close();
+        }
+
+        [Fact]
+        public void Execute_Should_Pass_Environment_Variable_To_The_Command_Script()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] {
+                    new EnvVariable("PROJ_NAME","TEST")
+                },
+                commands: new Command[] {
+                    new Command("start","echo \"$PROJ_NAME\"")
+                }
+            );
+
+            var outputStringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(outputStringBuilder);
+
+            var errorStringBuilder = new System.Text.StringBuilder();
+            var errorWriter = new System.IO.StringWriter(errorStringBuilder);
+
+            var executor = new Executor(pkg, outWriter, errorWriter);
+
+
+            executor.Execute(new string[] { "start" });
+            outWriter.Flush();
+
+            Assert.Equal("TEST\n\n", outputStringBuilder.ToString());
+            outWriter.Close();
+        }
+    }
+}
