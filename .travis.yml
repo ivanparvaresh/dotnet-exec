@@ -13,7 +13,7 @@ jobs:
         - dotnet test
     - stage: publish
       if: 
-        - branch = master
+        - branch = feature/init
         - type = push
       script:
         - dotnet restore
