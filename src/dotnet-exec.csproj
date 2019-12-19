@@ -3,15 +3,26 @@
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<OutputType>Exe</OutputType>
-		<PackageId>dotnet-exec</PackageId>
+		<PackageId>dotnet-tool-exec</PackageId>
 		<PackageVersion>1.0.0</PackageVersion>
-		<Authors>javadparvaresh@gmail.com</Authors>
+		
 		<Description>Execute custom commands by dotnet</Description>
 		<PackageType>DotnetCliTool</PackageType>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>execute</ToolCommandName>
 		<PackageOutputPath>./../.nupkg</PackageOutputPath>
 		<AssemblyName>dotnet-exec</AssemblyName>
+
+        <IsPackable>true</IsPackable>
+        <Title>dotnet-tool-exec</Title>
+        <Authors>javadparvaresh@gmail.com</Authors>
+        <PackageDescription>A tool that allows you easily execute your custom commands.</PackageDescription>
+        <PackageLicenseFile>../LICENSE</PackageLicenseFile>
+        <PackageTags>dotnet;tool;execute;shell;cmd;package</PackageTags>
+        <RepositoryUrl>https://github.com/javadparvaresh/dotnet-exec</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryBranch>master</RepositoryBranch>
+        <RepositoryBranch>master</RepositoryBranch>
 	</PropertyGroup>
 
 	<ItemGroup>
