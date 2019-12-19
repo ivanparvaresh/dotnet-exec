@@ -10,3 +10,8 @@ jobs:
         - dotnet restore
         - dotnet build
         - dotnet test
+    - stage: publish
+      script:
+        - dotnet restore
+        - dotnet pack
+        - dotnet nuget push .nupkg/*.nupkg --api-key $NUGET_API_KEY
