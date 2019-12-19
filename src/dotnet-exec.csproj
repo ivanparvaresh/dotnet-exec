@@ -17,7 +17,6 @@
         <Title>dotnet-tool-exec</Title>
         <Authors>javadparvaresh@gmail.com</Authors>
         <PackageDescription>A tool that allows you easily execute your custom commands.</PackageDescription>
-        <PackageLicenseFile>../LICENSE</PackageLicenseFile>
         <PackageTags>dotnet;tool;execute;shell;cmd;package</PackageTags>
         <RepositoryUrl>https://github.com/javadparvaresh/dotnet-exec</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
