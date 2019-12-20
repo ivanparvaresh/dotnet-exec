@@ -3,6 +3,10 @@ solution: dotnet-exec.sln
 mono: none
 dotnet: 3.1
 
+stages:
+    - test
+    - publish
+
 jobs:
   include:
     - stage: test
@@ -12,7 +16,7 @@ jobs:
         - dotnet build -c Release
         - dotnet test
     - stage: publish
-      if: ( tag IS present ) AND (( branch = master ) OR ( branch = BUG-3-fix-travis-publish-error ))
+      if: ( tag IS present ) AND (( branch = BUG-3-fix-travis-publish-error ))
       script:
         - VERSION=`git tag -l --sort committerdate | tail -1 | sed -E 's/-.+//' | sed -E 's/v//'`
         - VERSION=${VERSION:-'0.0.0'}
