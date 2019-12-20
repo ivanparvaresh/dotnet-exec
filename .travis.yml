@@ -3,19 +3,23 @@ solution: dotnet-exec.sln
 mono: none
 dotnet: 3.1
 
+stages:
+    - test
+    - publish
+
 jobs:
   include:
     - stage: test
-      if: type = push
+      if:  type = pull_request
       script:
         - dotnet restore
-        - dotnet build
+        - dotnet build -c Release
         - dotnet test
     - stage: publish
-      if: 
-        - branch = master
-        - type = push
+      if: (tag IS present) and ( branch = master )
       script:
+        - VERSION=`git tag -l --sort committerdate | tail -1 | sed -E 's/-.+//' | sed -E 's/v//'`
+        - VERSION=${VERSION:-'0.0.0'}
         - dotnet restore
-        - dotnet pack
+        - dotnet pack -c Release /p:PackageVersion=$VERSION
         - dotnet nuget push .nupkg/*.nupkg --api-key $NUGET_API_KEY --source $NUGET_SOURCE
