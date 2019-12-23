@@ -10,13 +10,13 @@ stages:
 jobs:
   include:
     - stage: test
-      if:  type = pull_request
+      if: type = pull_request or branch = dev or branch = master
       script:
         - dotnet restore
         - dotnet build -c Release
         - dotnet test
     - stage: publish
-      if: (tag IS present) and ( branch = master )
+      if: branch = master
       script:
         - VERSION=`git tag -l --sort committerdate | tail -1 | sed -E 's/-.+//' | sed -E 's/v//'`
         - VERSION=${VERSION:-'0.0.0'}
