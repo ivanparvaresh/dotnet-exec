@@ -4,24 +4,28 @@ namespace Ivanize.DotnetTool.Exec
 {
     class Program
     {
-        const string FILENAME = "./.dotnetexec.json";
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             try
             {
+                // Services
+                var fileSystem = new FileSystem();
                 var defaultEntrypointDetector = new DefaultEntrypointDetector();
                 var parser = new ScriptsFileParser(defaultEntrypointDetector);
-                if (!System.IO.File.Exists(FILENAME))
-                    throw new System.IO.FileNotFoundException($"No '{FILENAME}' file found at {System.IO.Directory.GetCurrentDirectory()}");
+                var configFileResolver = new ConfigFileResolver(fileSystem);
+                var executor = new Executor();
 
-                var package = parser.Parse(System.IO.File.OpenText(FILENAME));
 
-                var executor = new Executor(package);
-                executor.Execute(args);
+                var app = new Application(
+                    configFileResolver,
+                    parser,
+                    executor);
+                return app.Run(args);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                System.Console.Error.WriteLine(ex.Message);
+                return -1;
             }
         }
     }

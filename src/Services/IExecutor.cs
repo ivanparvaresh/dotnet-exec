@@ -2,6 +2,6 @@ namespace Ivanize.DotnetTool.Exec
 {
     public interface IExecutor
     {
-        void Execute(string[] args);
+        int Execute(Package package, string[] args);
     }
 }
