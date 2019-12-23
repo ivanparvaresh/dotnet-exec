@@ -36,7 +36,7 @@ namespace Ivanize.DotnetTool.Exec
                     cmd.Description = $" Run {command.Name} command";
                     cmd.OnExecute(() =>
                     {
-                        return this.executeScript(package, command.Script);
+                        return this.executeScript(package, command.Scripts);
                     });
                 });
             }
@@ -48,15 +48,24 @@ namespace Ivanize.DotnetTool.Exec
             return app.Execute(args);
         }
 
-        private int executeScript(Package package, string script)
+        private int executeScript(Package package, string[] scripts)
         {
-            var escapedArgs = script.Replace("\"", "\\\"");
+            var scriptText = new System.Text.StringBuilder();
+            foreach (var script in scripts)
+            {
+                if (scriptText.Length != 0)
+                    scriptText.Append(" && ");
+
+                var escapedArgs = script.Replace("\"", "\\\"");
+                scriptText.Append(escapedArgs);
+            }
+
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = package.Entrypoint,
-                    Arguments = $"-c \"{escapedArgs}\"",
+                    Arguments = $"-c \"{scriptText.ToString()}\"",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
