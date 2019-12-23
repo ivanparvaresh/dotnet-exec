@@ -68,7 +68,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         public void Parse_Should_Throw_Error_If_commands_name_is_empty_or_null()
         {
             var defaultEntrypointDetector = new DefaultEntrypointDetector();
-            var reader = new StreamReader(new MemoryStream(UTF8Encoding.UTF8.GetBytes("{ 'name':'MyPackage' , 'commands':{ '':'test'  } }")));
+            var reader = new StreamReader(new MemoryStream(UTF8Encoding.UTF8.GetBytes("{ 'name':'MyPackage' , 'commands':{ '':['test']  } }")));
             var parser = new ScriptsFileParser(defaultEntrypointDetector);
 
 
@@ -79,12 +79,12 @@ namespace Ivanize.DotnetTool.Exec.Test
         public void Parse_Should_Return_Commands()
         {
             var defaultEntrypointDetector = new DefaultEntrypointDetector();
-            var reader = new StreamReader(new MemoryStream(UTF8Encoding.UTF8.GetBytes("{ 'name':'MyPackage' , 'commands':{ 'Test':'dotnet test'  } }")));
+            var reader = new StreamReader(new MemoryStream(UTF8Encoding.UTF8.GetBytes("{ 'name':'MyPackage' , 'commands':{ 'Test':['dotnet test']  } }")));
             var parser = new ScriptsFileParser(defaultEntrypointDetector);
 
             var pkg = parser.Parse(reader);
             Assert.True(pkg.Commands.Length == 1);
-            Assert.Collection(pkg.Commands, s => Assert.True(s.Name == "Test" && s.Script == "dotnet test"));
+            Assert.Collection(pkg.Commands, s => Assert.True(s.Name == "Test" && s.Scripts[0] == "dotnet test"));
         }
         [Fact]
         public void Parse_Should_Return_EnvVariables()

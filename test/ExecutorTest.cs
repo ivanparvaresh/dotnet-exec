@@ -55,7 +55,7 @@ namespace Ivanize.DotnetTool.Exec.Test
                 entrypoint: "/bin/bash",
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
-                    new Command("start","dotnet start")
+                    new Command("start",new string[]{"dotnet start"})
                 }
             );
 
@@ -81,7 +81,7 @@ namespace Ivanize.DotnetTool.Exec.Test
                 entrypoint: "/bin/bash",
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
-                    new Command("start","dotnet start")
+                    new Command("start",new string[]{"dotnet start"})
                 }
             );
 
@@ -100,14 +100,14 @@ namespace Ivanize.DotnetTool.Exec.Test
         }
 
         [Fact]
-        public void Execute_Should_Execute_The_Command_Script()
+        public void Execute_Should_Execute_The_Singleline_Command_Script()
         {
             var pkg = new Package(
                 name: "Test",
                 entrypoint: "/bin/bash",
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
-                    new Command("start","echo 'Start'")
+                    new Command("start",new string[]{"echo 'Start'"})
                 }
             );
 
@@ -128,6 +128,37 @@ namespace Ivanize.DotnetTool.Exec.Test
         }
 
         [Fact]
+        public void Execute_Should_Execute_The_Multiline_Command_Script()
+        {
+            var pkg = new Package(
+                name: "Test",
+                entrypoint: "/bin/bash",
+                variables: new EnvVariable[] { },
+                commands: new Command[] {
+                    new Command("start",new string[]{
+                        "echo 'Start'",
+                        "echo 'Finish'",
+                    })
+                }
+            );
+
+            var outputStringBuilder = new System.Text.StringBuilder();
+            var outWriter = new System.IO.StringWriter(outputStringBuilder);
+
+            var errorStringBuilder = new System.Text.StringBuilder();
+            var errorWriter = new System.IO.StringWriter(errorStringBuilder);
+
+            var executor = new Executor(outWriter, errorWriter);
+
+
+            executor.Execute(pkg, new string[] { "start" });
+            outWriter.Flush();
+
+            Assert.Equal("Start\nFinish\n\n", outputStringBuilder.ToString());
+            outWriter.Close();
+        }
+
+        [Fact]
         public void Execute_Should_Capture_The_StandardOutput()
         {
             var pkg = new Package(
@@ -135,7 +166,7 @@ namespace Ivanize.DotnetTool.Exec.Test
                 entrypoint: "/bin/bash",
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
-                    new Command("start","echo 'Start'")
+                    new Command("start",new string[]{"echo 'Start'"})
                 }
             );
 
@@ -163,7 +194,7 @@ namespace Ivanize.DotnetTool.Exec.Test
                 entrypoint: "/bin/bash",
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
-                    new Command("start","not-existed-command do-something")
+                    new Command("start",new string[]{"not-existed-command do-something"})
                 }
             );
 
@@ -193,7 +224,7 @@ namespace Ivanize.DotnetTool.Exec.Test
                     new EnvVariable("PROJ_NAME","TEST")
                 },
                 commands: new Command[] {
-                    new Command("start","echo \"$PROJ_NAME\"")
+                    new Command("start",new string[]{"echo \"$PROJ_NAME\""})
                 }
             );
 
