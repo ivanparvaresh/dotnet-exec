@@ -4,13 +4,17 @@ mono: none
 dotnet: 3.1
 
 stages:
-    - test
-    - publish
+    - name: test
+        if: type = pull_request
+    - name: publish
+        if: branch = master and type = push
+        branch:
+            only: master
 
 jobs:
   include:
     - stage: test
-      if: type = pull_request or branch = dev or branch = master
+      
       script:
         - dotnet restore
         - dotnet build -c Release
