@@ -23,5 +23,5 @@ jobs:
         - VERSION=`git tag -l --sort committerdate | tail -1 | sed -E 's/-.+//' | sed -E 's/v//'`
         - VERSION=${VERSION:-'0.0.0'}
         - dotnet restore
-        - dotnet pack -c Release /p:PackageVersion=$VERSION
+        - dotnet pack -c Release
         - dotnet nuget push .nupkg/*.nupkg --api-key $NUGET_API_KEY --source $NUGET_SOURCE
