@@ -10,7 +10,7 @@ stages:
 jobs:
   include:
     - stage: test
-      if: type = pull_request
+      if: type = pull_request or branch = dev or branch = master
       script:
         - dotnet restore
         - dotnet build -c Release
