@@ -4,21 +4,21 @@ mono: none
 dotnet: 3.1
 
 stages:
-    - name: test
-        if: type = pull_request
-    - name: publish
-        if: branch = master AND type = push
-        branch:
-            only: master
+    - test
+    - publish
 
 jobs:
   include:
     - stage: test
+      if: type = pull_request
       script:
         - dotnet restore
         - dotnet build -c Release
         - dotnet test
     - stage: publish
+      if: branch = master AND type = push
+      branch:
+        only: master
       script:
         - VERSION=`git tag -l --sort committerdate | tail -1 | sed -E 's/-.+//' | sed -E 's/v//'`
         - VERSION=${VERSION:-'0.0.0'}
