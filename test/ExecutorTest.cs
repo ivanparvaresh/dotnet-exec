@@ -1,7 +1,4 @@
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
 using Xunit;
 
 namespace Ivanize.DotnetTool.Exec.Test
@@ -11,7 +8,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         [Fact]
         public void Execute_Should_Throw_If_Package_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => new Executor(null));
+            Assert.Throws<ArgumentNullException>(() => new Executor().Execute(null, new string[] { }));
         }
         [Fact]
         public void Execute_Should_Throw_If_Args_Are_Empty()
@@ -22,8 +19,8 @@ namespace Ivanize.DotnetTool.Exec.Test
                 variables: new EnvVariable[] { },
                 commands: new Command[] { }
             );
-            var executor = new Executor(pkg);
-            Assert.Throws<ArgumentNullException>(() => executor.Execute(null));
+            var executor = new Executor();
+            Assert.Throws<ArgumentNullException>(() => executor.Execute(pkg, null));
         }
         [Fact]
         public void Execute_Should_Print_Help_Message_If_Argument_Is_Empty()
@@ -37,10 +34,10 @@ namespace Ivanize.DotnetTool.Exec.Test
 
             var stringBuilder = new System.Text.StringBuilder();
             var outWriter = new System.IO.StringWriter(stringBuilder);
-            var executor = new Executor(pkg, outWriter, outWriter);
+            var executor = new Executor(outWriter, outWriter);
 
 
-            executor.Execute(new string[] { });
+            executor.Execute(pkg, new string[] { });
             outWriter.Flush();
 
             Assert.Equal(
@@ -64,10 +61,10 @@ namespace Ivanize.DotnetTool.Exec.Test
 
             var stringBuilder = new System.Text.StringBuilder();
             var outWriter = new System.IO.StringWriter(stringBuilder);
-            var executor = new Executor(pkg, outWriter, outWriter);
+            var executor = new Executor(outWriter, outWriter);
 
 
-            executor.Execute(new string[] { });
+            executor.Execute(pkg, new string[] { });
             outWriter.Flush();
 
             Assert.Equal(
@@ -90,10 +87,10 @@ namespace Ivanize.DotnetTool.Exec.Test
 
             var stringBuilder = new System.Text.StringBuilder();
             var outWriter = new System.IO.StringWriter(stringBuilder);
-            var executor = new Executor(pkg, outWriter, outWriter);
+            var executor = new Executor(outWriter, outWriter);
 
 
-            executor.Execute(new string[] { "-h" });
+            executor.Execute(pkg, new string[] { "-h" });
             outWriter.Flush();
 
             Assert.Equal(
@@ -120,10 +117,10 @@ namespace Ivanize.DotnetTool.Exec.Test
             var errorStringBuilder = new System.Text.StringBuilder();
             var errorWriter = new System.IO.StringWriter(errorStringBuilder);
 
-            var executor = new Executor(pkg, outWriter, errorWriter);
+            var executor = new Executor(outWriter, errorWriter);
 
 
-            executor.Execute(new string[] { "start" });
+            executor.Execute(pkg, new string[] { "start" });
             outWriter.Flush();
 
             Assert.Equal("Start\n\n", outputStringBuilder.ToString());
@@ -148,10 +145,10 @@ namespace Ivanize.DotnetTool.Exec.Test
             var errorStringBuilder = new System.Text.StringBuilder();
             var errorWriter = new System.IO.StringWriter(errorStringBuilder);
 
-            var executor = new Executor(pkg, outWriter, errorWriter);
+            var executor = new Executor(outWriter, errorWriter);
 
 
-            executor.Execute(new string[] { "start" });
+            executor.Execute(pkg, new string[] { "start" });
             outWriter.Flush();
 
             Assert.Equal("Start\n\n", outputStringBuilder.ToString());
@@ -176,10 +173,10 @@ namespace Ivanize.DotnetTool.Exec.Test
             var errorStringBuilder = new System.Text.StringBuilder();
             var errorWriter = new System.IO.StringWriter(errorStringBuilder);
 
-            var executor = new Executor(pkg, outWriter, errorWriter);
+            var executor = new Executor(outWriter, errorWriter);
 
 
-            executor.Execute(new string[] { "start" });
+            executor.Execute(pkg, new string[] { "start" });
             errorWriter.Flush();
 
             Assert.Equal("/bin/bash: not-existed-command: command not found\n\n", errorStringBuilder.ToString());
@@ -206,10 +203,10 @@ namespace Ivanize.DotnetTool.Exec.Test
             var errorStringBuilder = new System.Text.StringBuilder();
             var errorWriter = new System.IO.StringWriter(errorStringBuilder);
 
-            var executor = new Executor(pkg, outWriter, errorWriter);
+            var executor = new Executor(outWriter, errorWriter);
 
 
-            executor.Execute(new string[] { "start" });
+            executor.Execute(pkg, new string[] { "start" });
             outWriter.Flush();
 
             Assert.Equal("TEST\n\n", outputStringBuilder.ToString());
