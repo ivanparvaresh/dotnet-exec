@@ -7,7 +7,7 @@ stages:
     - name: test
         if: type = pull_request
     - name: publish
-        if: branch = master and type = push
+        if: branch = master AND type = push
         branch:
             only: master
 
