@@ -55,12 +55,12 @@ namespace Ivanize.DotnetTool.Exec
             public string Name { get; set; }
             public string Entrypoint { get; set; }
             public Dictionary<string, string> Env { get; set; }
-            public Dictionary<string, string> Commands { get; set; }
+            public Dictionary<string, string[]> Commands { get; set; }
 
             public InternalPackage()
             {
                 this.Env = new Dictionary<string, string>();
-                this.Commands = new Dictionary<string, string>();
+                this.Commands = new Dictionary<string, string[]>();
             }
         }
     }

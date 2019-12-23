@@ -1,6 +1,8 @@
 dotnet-exec
 ============
 
+[![Build Status](https://travis-ci.com/javadparvaresh/dotnet-exec.svg?branch=master)](https://travis-ci.com/javadparvaresh/dotnet-exec)
+
 A tool that allows you easily execute your custom commands.
 
 Any custom command can be .NET CLI command, it just has to be in defined in root path as `.dotnetexec` file.
@@ -17,10 +19,16 @@ dotnet tool install --global dotnet-exec
 Create `.dotnetexec` file in root of your solution and define your comamnds:
 ```json
 {
-	"name":"MySolution",
+    "name":"MySolution",
+    "env":{
+        "NAME":"MY_NAME"
+    }
 	"entrypoint":"/bin/bash",
 	"commands":{
-		"test":"dotnet test -p=test.csproj"
+		"test":[
+            "dotnet build",
+            "dotnet test",
+        ]
 	}
 }
 ```
