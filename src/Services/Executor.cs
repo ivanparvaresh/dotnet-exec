@@ -3,42 +3,40 @@ using System.IO;
 using System.Diagnostics;
 using Microsoft.Extensions.CommandLineUtils;
 
-
 namespace Ivanize.DotnetTool.Exec
 {
     public class Executor : IExecutor
     {
-        public Package Package { get; private set; }
         public TextWriter OutWriter { get; private set; }
         public TextWriter ErrorWriter { get; private set; }
 
-        public Executor(Package package) : this(package, Console.Out, Console.Error)
+        public Executor() : this(Console.Out, Console.Error)
         {
         }
-        public Executor(Package package, TextWriter outWriter, TextWriter errorWriter)
+        public Executor(TextWriter outWriter, TextWriter errorWriter)
         {
-            this.Package = package ?? throw new ArgumentNullException(nameof(package));
             this.OutWriter = outWriter ?? throw new ArgumentNullException(nameof(outWriter));
             this.ErrorWriter = errorWriter ?? throw new ArgumentNullException(nameof(errorWriter));
         }
 
-        public void Execute(string[] args)
+        public int Execute(Package package, string[] args)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
+            if (package == null) throw new ArgumentNullException(nameof(package));
 
             var app = new CommandLineApplication(false);
             app.Out = this.OutWriter;
             app.Error = this.ErrorWriter;
             app.HelpOption("-h");
 
-            foreach (var command in Package.Commands)
+            foreach (var command in package.Commands)
             {
                 app.Command(command.Name, cmd =>
                 {
                     cmd.Description = $" Run {command.Name} command";
                     cmd.OnExecute(() =>
                     {
-                        return this.executeScript(command.Script);
+                        return this.executeScript(package, command.Script);
                     });
                 });
             }
@@ -47,17 +45,17 @@ namespace Ivanize.DotnetTool.Exec
                 app.ShowHelp();
                 return 1;
             });
-            app.Execute(args);
+            return app.Execute(args);
         }
 
-        private int executeScript(string script)
+        private int executeScript(Package package, string script)
         {
             var escapedArgs = script.Replace("\"", "\\\"");
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = Package.Entrypoint,
+                    FileName = package.Entrypoint,
                     Arguments = $"-c \"{escapedArgs}\"",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -79,12 +77,12 @@ namespace Ivanize.DotnetTool.Exec
             };
 
             // Set environment variables
-            foreach (var env in this.Package.Variables)
+            foreach (var env in package.Variables)
                 process.StartInfo.EnvironmentVariables[env.Name] = env.Value;
 
             process.Start();
-			process.BeginErrorReadLine();
-			process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.BeginOutputReadLine();
             process.WaitForExit();
             return process.ExitCode;
         }
