@@ -9,14 +9,17 @@ namespace Ivanize.DotnetTool.Exec
     {
         public TextWriter OutWriter { get; private set; }
         public TextWriter ErrorWriter { get; private set; }
+        private bool forwardStdOut = true;
 
-        public Executor() : this(Console.Out, Console.Error)
+        public Executor()
         {
+            this.forwardStdOut = true;
         }
         public Executor(TextWriter outWriter, TextWriter errorWriter)
         {
             this.OutWriter = outWriter ?? throw new ArgumentNullException(nameof(outWriter));
             this.ErrorWriter = errorWriter ?? throw new ArgumentNullException(nameof(errorWriter));
+            this.forwardStdOut = false;
         }
 
         public int Execute(Package package, string[] args)
@@ -66,32 +69,38 @@ namespace Ivanize.DotnetTool.Exec
                 {
                     FileName = package.Entrypoint,
                     Arguments = $"-c \"{scriptText.ToString()}\"",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
+                    RedirectStandardOutput = (!this.forwardStdOut) ? true : false,
+                    RedirectStandardError = (!this.forwardStdOut) ? true : false,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                 },
             };
 
             // Handle the output
-            process.OutputDataReceived += (sender, data) =>
+            if (!this.forwardStdOut)
             {
-                this.OutWriter.WriteLine(data.Data);
-                this.OutWriter.Flush();
-            };
-            process.ErrorDataReceived += (sender, data) =>
-            {
-                this.ErrorWriter.WriteLine(data.Data);
-                this.ErrorWriter.Flush();
-            };
+                process.OutputDataReceived += (sender, data) =>
+                {
+                    this.OutWriter.WriteLine(data.Data);
+                    this.OutWriter.Flush();
+                };
+                process.ErrorDataReceived += (sender, data) =>
+                {
+                    this.ErrorWriter.WriteLine(data.Data);
+                    this.ErrorWriter.Flush();
+                };
+            }
 
             // Set environment variables
             foreach (var env in package.Variables)
                 process.StartInfo.EnvironmentVariables[env.Name] = env.Value;
 
             process.Start();
-            process.BeginErrorReadLine();
-            process.BeginOutputReadLine();
+            if (!this.forwardStdOut)
+            {
+                process.BeginErrorReadLine();
+                process.BeginOutputReadLine();
+            }
             process.WaitForExit();
             return process.ExitCode;
         }
