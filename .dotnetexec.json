@@ -2,6 +2,6 @@
 	"name": "stockmount",
 	"env": {},
 	"commands": {
-		"test": "dotnet test"
+		"test": ["dotnet test"]
 	}
 }
