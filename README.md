@@ -13,7 +13,7 @@ Any custom command can be .NET CLI command, it just has to be in defined in root
 
 install the tool by using to following command:
 ```
-dotnet tool install --global dotnet-exec
+dotnet tool install --global dotnet-tool-exec
 ```
 
 Create `.dotnetexec.json` file in root of your solution and define your comamnds:
