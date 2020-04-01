@@ -23,9 +23,9 @@ Create `.dotnetexec.json` file in root of your solution and define your comamnds
     "env":{
         "NAME":"MY_NAME"
     },
-	"entrypoint":"/bin/bash", // optional, and will automaticly detected absed on operation system
+	"entrypoint":"/bin/bash",
 	"commands":{
-		"test":[ // command will concat by '&&' and executed in one single line
+		"test":[ 
             "dotnet build",
             "dotnet test -p $NAME",
         ]
@@ -33,7 +33,23 @@ Create `.dotnetexec.json` file in root of your solution and define your comamnds
 }
 ```
 
+> Entrypoint is an optional parameter, automaticly will be detected based on operation system
+
+> Commands will concat by '&&' and executed in one single line
+
+
 To execute a command use `dotnet execute [command]`. ex:
 ```shell
 dotnet execute test
 ```
+
+# How to contribute
+
+Just fork the project, make your changes send us a PR.
+You can compile the project with Visual Studio 2017 and/or the .NET Core 2.0 CLI!
+
+In the root folder, just run:
+
+dotnet restore
+dotnet build
+dotnet test
