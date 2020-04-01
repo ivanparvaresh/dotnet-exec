@@ -16,6 +16,7 @@ namespace Ivanize.DotnetTool.Exec
                 var executor = new Executor();
 
                 var app = new Application(
+                    fileSystem,
                     configFileResolver,
                     parser,
                     executor);
