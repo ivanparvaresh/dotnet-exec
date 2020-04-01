@@ -4,8 +4,8 @@
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<OutputType>Exe</OutputType>
 		<PackageId>dotnet-tool-exec</PackageId>
-		<PackageVersion>2.0.2</PackageVersion>
-		
+		<PackageVersion>1.2.0</PackageVersion>
+
 		<Description>Execute custom commands by dotnet</Description>
 		<PackageType>DotnetCliTool</PackageType>
 		<PackAsTool>true</PackAsTool>
@@ -13,15 +13,15 @@
 		<PackageOutputPath>./../.nupkg</PackageOutputPath>
 		<AssemblyName>dotnet-exec</AssemblyName>
 
-        <IsPackable>true</IsPackable>
-        <Title>dotnet-tool-exec</Title>
-        <Authors>javadparvaresh@gmail.com</Authors>
-        <PackageDescription>A tool that allows you easily execute your custom commands.</PackageDescription>
-        <PackageTags>dotnet;tool;execute;shell;cmd;package</PackageTags>
-        <RepositoryUrl>https://github.com/javadparvaresh/dotnet-exec</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryBranch>master</RepositoryBranch>
-        <RepositoryBranch>master</RepositoryBranch>
+		<IsPackable>true</IsPackable>
+		<Title>dotnet-tool-exec</Title>
+		<Authors>javadparvaresh@gmail.com</Authors>
+		<PackageDescription>A tool that allows you easily execute your custom commands.</PackageDescription>
+		<PackageTags>dotnet;tool;execute;shell;cmd;package</PackageTags>
+		<RepositoryUrl>https://github.com/javadparvaresh/dotnet-exec</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryBranch>master</RepositoryBranch>
+		<RepositoryBranch>master</RepositoryBranch>
 	</PropertyGroup>
 
 	<ItemGroup>

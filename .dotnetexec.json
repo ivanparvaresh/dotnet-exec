@@ -1,7 +1,8 @@
 {
-	"name": "stockmount",
-	"env": {},
-	"commands": {
-		"test": ["dotnet test"]
-	}
+  "name": "app",
+  "env": {},
+  "commands": {
+    "build": ["dotnet build"],
+    "test": ["dotnet test"]
+  }
 }

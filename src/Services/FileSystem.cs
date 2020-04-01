@@ -16,5 +16,10 @@ namespace Ivanize.DotnetTool.Exec
         {
             return File.OpenText(fileName);
         }
+
+        public void WriteText(string fileName, string text)
+        {
+            File.WriteAllText(fileName, text);
+        }
     }
 }

@@ -55,6 +55,11 @@ namespace Ivanize.DotnetTool.Exec.Test
 
                 throw new FileNotFoundException("FileNotFound", this.fileName);
             }
+
+            public void WriteText(string fileName, string text)
+            {
+                throw new System.NotImplementedException();
+            }
         }
     }
 }
