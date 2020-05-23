@@ -14,6 +14,8 @@ namespace Ivanize.DotnetTool.Exec
         public Executor()
         {
             this.forwardStdOut = true;
+            this.OutWriter = Console.Out;
+            this.ErrorWriter = Console.Error;
         }
         public Executor(TextWriter outWriter, TextWriter errorWriter)
         {
