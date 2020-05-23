@@ -6,6 +6,15 @@ namespace Ivanize.DotnetTool.Exec.Test
     public class ExecutorTest
     {
         [Fact]
+        public void Constructor_Should_Use_Console_As_Ouput_Writers()
+        {
+            var executor = new Executor();
+
+
+            Assert.Equal(executor.ErrorWriter, Console.Error);
+            Assert.Equal(executor.OutWriter, Console.Out);
+        }
+        [Fact]
         public void Execute_Should_Throw_If_Package_Is_Null()
         {
             Assert.Throws<ArgumentNullException>(() => new Executor().Execute(null, new string[] { }));
