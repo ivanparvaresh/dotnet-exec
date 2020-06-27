@@ -4,18 +4,18 @@ namespace Ivanize.DotnetTool.Exec
 {
     public class DefaultEntrypointDetector : IDefaultEntrypointDetector
     {
-        public string GetDefaultEntryPoint()
+        public Entrypoint GetDefaultEntrypoint()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return "cmd.exe";
+                return Entrypoint.Windows;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return "/bin/bash";
+                return Entrypoint.Unix;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                return "/bin/bash";
+                return Entrypoint.Unix;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-                return "/bin/bash";
-
-            return "cmd.exe";
+                return Entrypoint.Unix;
+            
+            return Entrypoint.Unix;
         }
     }
 }

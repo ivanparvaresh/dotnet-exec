@@ -13,7 +13,7 @@ namespace Ivanize.DotnetTool.Exec
 
         public Executor()
         {
-            this.forwardStdOut = true;
+            this.forwardStdOut = false; // when true, no output printed to console on Windows
             this.OutWriter = Console.Out;
             this.ErrorWriter = Console.Error;
         }
@@ -65,12 +65,15 @@ namespace Ivanize.DotnetTool.Exec
                 scriptText.Append(escapedArgs);
             }
 
+            var commandOption = string.IsNullOrWhiteSpace(package.EntrypointObject.CommandOption)
+                ? string.Empty
+                : $"{package.EntrypointObject.CommandOption} ";
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = package.Entrypoint,
-                    Arguments = $"-c \"{scriptText.ToString()}\"",
+                    Arguments = $"{commandOption}\"{scriptText.ToString()}\"",
                     RedirectStandardOutput = (!this.forwardStdOut) ? true : false,
                     RedirectStandardError = (!this.forwardStdOut) ? true : false,
                     UseShellExecute = false,
