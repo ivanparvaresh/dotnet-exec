@@ -4,7 +4,7 @@
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<OutputType>Exe</OutputType>
 		<PackageId>dotnet-tool-exec</PackageId>
-		<PackageVersion>2.0.4</PackageVersion>
+		<PackageVersion>2.0.5</PackageVersion>
 
 		<Description>Execute custom commands by dotnet</Description>
 		<PackageType>DotnetCliTool</PackageType>
