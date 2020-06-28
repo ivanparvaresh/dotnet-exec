@@ -107,7 +107,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         // Internal Mocking Classes
         private class MockedDefaultEntrypointDetector : IDefaultEntrypointDetector
         {
-            public string GetDefaultEntryPoint() => "/bin/bash";
+            public Entrypoint GetDefaultEntrypoint() => Entrypoint.Unix;
         }
     }
 }

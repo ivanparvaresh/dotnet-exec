@@ -40,10 +40,10 @@ namespace Ivanize.DotnetTool.Exec
             if (pkgInstance.Env.Any(s => string.IsNullOrWhiteSpace(s.Key))) throw new InvalidDataException("The Variable `name` is required!");
             if (pkgInstance.Commands.Any(s => string.IsNullOrWhiteSpace(s.Key))) throw new InvalidDataException("The Command `name` is required!");
 
-
+            var entryPoint = pkgInstance.EntrypointObject ?? this.defaultEntrypointDetector.GetDefaultEntrypoint();
             var pkg = new Package(
                 pkgInstance.Name,
-                pkgInstance.Entrypoint ?? this.defaultEntrypointDetector.GetDefaultEntryPoint(),
+                pkgInstance.EntrypointObject ?? this.defaultEntrypointDetector.GetDefaultEntrypoint(),
                 pkgInstance.Env.Select(s => new EnvVariable(s.Key, s.Value)).ToArray(),
                 pkgInstance.Commands.Select(s => new Command(s.Key, s.Value)).ToArray());
 
@@ -56,6 +56,23 @@ namespace Ivanize.DotnetTool.Exec
             public string Entrypoint { get; set; }
             public Dictionary<string, string> Env { get; set; }
             public Dictionary<string, string[]> Commands { get; set; }
+
+            public Entrypoint EntrypointObject
+            {
+                get
+                {
+                    if (string.IsNullOrWhiteSpace(Entrypoint))
+                        return null;
+                    
+                    if (Exec.Entrypoint.Windows.Executable.Equals(Entrypoint, StringComparison.OrdinalIgnoreCase))
+                        return Exec.Entrypoint.Windows;
+                    
+                    if (Exec.Entrypoint.Unix.Executable.Equals(Entrypoint, StringComparison.OrdinalIgnoreCase))
+                        return Exec.Entrypoint.Unix;
+
+                    return new Entrypoint(Entrypoint, null);
+                }
+            }
 
             public InternalPackage()
             {

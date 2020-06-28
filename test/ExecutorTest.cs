@@ -24,7 +24,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] { }
             );
@@ -36,7 +36,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] { }
             );
@@ -61,7 +61,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
                     new Command("start",new string[]{"dotnet start"})
@@ -87,7 +87,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
                     new Command("start",new string[]{"dotnet start"})
@@ -113,7 +113,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
                     new Command("start",new string[]{"echo 'Start'"})
@@ -141,7 +141,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
                     new Command("start",new string[]{
@@ -172,7 +172,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
                     new Command("start",new string[]{"echo 'Start'"})
@@ -200,7 +200,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] { },
                 commands: new Command[] {
                     new Command("start",new string[]{"not-existed-command do-something"})
@@ -228,7 +228,7 @@ namespace Ivanize.DotnetTool.Exec.Test
         {
             var pkg = new Package(
                 name: "Test",
-                entrypoint: "/bin/bash",
+                entrypoint: Entrypoint.Unix, 
                 variables: new EnvVariable[] {
                     new EnvVariable("PROJ_NAME","TEST")
                 },
