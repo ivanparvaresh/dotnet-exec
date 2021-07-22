@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net5.0</TargetFramework>
 		<OutputType>Exe</OutputType>
 		<PackageId>dotnet-tool-exec</PackageId>
 		<PackageVersion>2.0.5</PackageVersion>
