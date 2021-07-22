@@ -11,7 +11,7 @@
 		<PackageType>DotnetCliTool</PackageType>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>execute</ToolCommandName>
-		<PackageOutputPath>./../.nupkg</PackageOutputPath>
+		<PackageOutputPath>./../nupkgs</PackageOutputPath>
 		<AssemblyName>dotnet-exec</AssemblyName>
 
 		<IsPackable>true</IsPackable>
@@ -24,6 +24,10 @@
 		<RepositoryBranch>master</RepositoryBranch>
 		<RepositoryBranch>master</RepositoryBranch>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
