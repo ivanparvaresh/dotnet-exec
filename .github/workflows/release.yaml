@@ -6,7 +6,7 @@ on:
       - "v*.*.*"
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,8 +15,13 @@ jobs:
         with:
           dotnet-version: '5.0.x'
 
-      - name: get tag
-        run: echo "GIT_TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
+      - name: Set Release Version Env
+        run: echo "RELEASE_VERSION=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
+      
+      - name: Test Version Env
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
         
       - name: Install dependencies
         run: dotnet restore
@@ -28,4 +33,4 @@ jobs:
         run: dotnet test --no-restore --verbosity normal
 
       - name: Pack
-        run: dotnet pack --no-build --configuration Release -p:PackageVersion=2.1.0 --output nupkgs
+        run: dotnet pack --no-build --configuration Release -p:PackageVersion=$RELEASE_VERSION --output nupkgs
