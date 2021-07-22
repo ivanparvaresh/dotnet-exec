@@ -1,9 +1,8 @@
 name: "Release"
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  release:
+    types: [published, created]
 
 env:
   NUGET_FEED: https://api.nuget.org/v3/index.json
