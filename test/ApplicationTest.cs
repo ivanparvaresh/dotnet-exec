@@ -51,7 +51,7 @@ namespace Ivanize.DotnetTool.Exec.Test
             var result = app.Run(new string[] { "config-init" });
 
             Assert.Equal(0, result);
-            Assert.Equal(fileSystem.fileName, "./.dotnetexec.json");
+            Assert.Equal("./.dotnetexec.json", fileSystem.fileName);
 
             // should be parsable
             var stream = fileSystem.OpenText("./.dotnetexec.json");
