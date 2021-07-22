@@ -33,4 +33,4 @@ jobs:
         run: dotnet test --no-restore --verbosity normal
 
       - name: Pack
-        run: dotnet pack --no-build --configuration Release -p:PackageVersion=$RELEASE_VERSION --output nupkgs
+        run: dotnet pack --no-build --configuration Release -p:PackageVersion=${RELEASE_VERSION:1} --output nupkgs
