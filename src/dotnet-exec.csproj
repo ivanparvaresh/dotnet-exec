@@ -5,6 +5,7 @@
 		<OutputType>Exe</OutputType>
 		<PackageId>dotnet-tool-exec</PackageId>
 		<PackageVersion>2.0.5</PackageVersion>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 
 		<Description>Execute custom commands by dotnet</Description>
 		<PackageType>DotnetCliTool</PackageType>
