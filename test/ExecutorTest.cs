@@ -23,7 +23,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Throw_If_Args_Are_Empty()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] { }
@@ -35,7 +34,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Print_Help_Message_If_Argument_Is_Empty()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] { }
@@ -60,7 +58,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Print_Help_Message_Comamnds_Included_If_Argument_Is_Empty()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] {
@@ -86,7 +83,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Print_Help_Message_Comamnds_Included_If_Argument_pass_help_param()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] {
@@ -112,7 +108,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Execute_The_Singleline_Command_Script()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] {
@@ -140,7 +135,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Execute_The_Multiline_Command_Script()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] {
@@ -171,7 +165,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Capture_The_StandardOutput()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] {
@@ -199,7 +192,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Capture_The_ErrorOutput()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] { },
           commands: new Command[] {
@@ -227,7 +219,6 @@ namespace Ivanize.DotnetTool.Exec.Test
     public void Execute_Should_Pass_Environment_Variable_To_The_Command_Script()
     {
       var pkg = new Package(
-          name: "Test",
           entrypoint: Entrypoint.Unix,
           variables: new EnvVariable[] {
                     new EnvVariable("PROJ_NAME","TEST")

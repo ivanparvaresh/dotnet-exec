@@ -34,7 +34,6 @@ namespace Ivanize.DotnetTool.Exec
       }
 
       if (pkgInstance == null) throw new InvalidDataException("Unable to parse the scripts file!");
-      if (String.IsNullOrWhiteSpace(pkgInstance.Name)) throw new InvalidDataException("The 'name' property is required!");
 
 
       if (pkgInstance.Env.Any(s => string.IsNullOrWhiteSpace(s.Key))) throw new InvalidDataException("The Variable `name` is required!");
@@ -42,7 +41,6 @@ namespace Ivanize.DotnetTool.Exec
 
       var entryPoint = pkgInstance.EntrypointObject ?? this.defaultEntrypointDetector.GetDefaultEntrypoint();
       var pkg = new Package(
-          pkgInstance.Name,
           pkgInstance.EntrypointObject ?? this.defaultEntrypointDetector.GetDefaultEntrypoint(),
           pkgInstance.Env.Select(s => new EnvVariable(s.Key, s.Value)).ToArray(),
           pkgInstance.Commands.Select(s => new Command(s.Key, s.Value)).ToArray());
@@ -52,7 +50,6 @@ namespace Ivanize.DotnetTool.Exec
     // Internal classes
     private class InternalPackage
     {
-      public string Name { get; set; }
       public string Entrypoint { get; set; }
       public Dictionary<string, string> Env { get; set; }
       public Dictionary<string, string[]> Commands { get; set; }

@@ -55,7 +55,6 @@ namespace Ivanize.DotnetTool.Exec.Test
       // should be parsable
       var stream = fileSystem.OpenText("/app/project/.dotnetexec.json");
       var pkg = parser.Parse(stream);
-      Assert.Equal("app", pkg.Name);
       Assert.Equal("/bin/bash", pkg.Entrypoint);
       Assert.Equal(0, (int)pkg.Variables.Length);
       Assert.Equal(2, (int)pkg.Commands.Length);

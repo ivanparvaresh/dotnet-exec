@@ -23,22 +23,6 @@ namespace Ivanize.DotnetTool.Exec.Test
       var parser = new ScriptsFileParser(defaultEntrypointDetector);
       Assert.Throws<InvalidDataException>(() => parser.Parse(reader));
     }
-    [Fact]
-    public void Parse_Should_Throw_If_PkgName_Not_Defined()
-    {
-      var defaultEntrypointDetector = new DefaultEntrypointDetector();
-      var reader = new StreamReader(new MemoryStream(UTF8Encoding.UTF8.GetBytes("{  }")));
-      var parser = new ScriptsFileParser(defaultEntrypointDetector);
-      Assert.Throws<InvalidDataException>(() => parser.Parse(reader));
-    }
-    [Fact]
-    public void Parse_Should_Throw_If_PkgName_Is_Null()
-    {
-      var defaultEntrypointDetector = new DefaultEntrypointDetector();
-      var reader = new StreamReader(new MemoryStream(UTF8Encoding.UTF8.GetBytes("{ 'name':'' }")));
-      var parser = new ScriptsFileParser(defaultEntrypointDetector);
-      Assert.Throws<InvalidDataException>(() => parser.Parse(reader));
-    }
 
     [Fact]
     public void Parse_Should_Return_Empty_Package()
@@ -48,7 +32,6 @@ namespace Ivanize.DotnetTool.Exec.Test
       var parser = new ScriptsFileParser(defaultEntrypointDetector);
       var pkg = parser.Parse(reader);
 
-      Assert.True(pkg.Name == "MyPackage");
       Assert.True(pkg.Variables.Length == 0);
       Assert.True(pkg.Commands.Length == 0);
     }
