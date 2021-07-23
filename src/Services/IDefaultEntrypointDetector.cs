@@ -1,7 +1,7 @@
 namespace Ivanize.DotnetTool.Exec
 {
-    public interface IDefaultEntrypointDetector
-    {
-        Entrypoint GetDefaultEntrypoint();
-    }
+  public interface IDefaultEntrypointDetector
+  {
+    Entrypoint GetDefaultEntrypoint();
+  }
 }
