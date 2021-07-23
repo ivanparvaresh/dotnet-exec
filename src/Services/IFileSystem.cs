@@ -7,5 +7,7 @@ namespace Ivanize.DotnetTool.Exec
         bool Exists(string fileName);
         StreamReader OpenText(string fileName);
         void WriteText(string fileName, string text);
+        string GetCurrentDirectory();
+        string GetParentDirectoryPath(string path);
     }
 }
