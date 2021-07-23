@@ -48,7 +48,6 @@ namespace Ivanize.DotnetTool.Exec.Test
       var parser = new ScriptsFileParser(defaultEntrypointDetector);
       var pkg = parser.Parse(reader);
 
-      Assert.True(pkg.Name == "MyPackage");
       Assert.True(pkg.Variables.Length == 0);
       Assert.True(pkg.Commands.Length == 0);
     }

@@ -1,8 +1,7 @@
 {
-  "name": "app",
   "env": {},
   "commands": {
     "build": ["dotnet build"],
-    "test": ["dotnet test"]
+    "test": ["dotnet test -v=normal"]
   }
 }
